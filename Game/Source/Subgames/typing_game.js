@@ -59,8 +59,6 @@ class TypingGame extends Screen {
 
     music_volume = 0.6;
 
-    this.level = 3;
-
     this.game_width = width;
     this.game_height = height;
 
@@ -75,20 +73,25 @@ class TypingGame extends Screen {
 
     layers["overlay"] = new PIXI.Container();
     this.addChild(layers["overlay"]);
+
+    this.loadLevel(4);
+  }
+
+  loadLevel(level_number) {
+    var self = this;
+
+    stopMusic();
+    this.level = level_number
+
+    let layers = this.layers;
+
+    layers["background"].removeChildren();
+    layers["zombies"].removeChildren();
+    layers["overlay"].removeChildren();
+    
     let overlay = layers["overlay"];
 
-    this.background = makeSprite("Art/level1_background.png", layers["background"], this.game_width / 2, this.game_height / 2, 0.5, 0.5),
-
-
-    // for (let i = 0; i < 5; i++) {
-    //   let new_zombie = makeAnimatedSprite("Art/Zombies/" + pick(zombies) + ".json", "zombie", overlay, this.game_width / 2 + 100 * i, this.game_height / 2 + 100 + dice(400), 0.5, 0.9);
-    //   new_zombie.speed = speeds[this.level-1] * (dice(40) + 80) / 100.0
-    //   new_zombie.animationSpeed = new_zombie.speed;
-    //   new_zombie.play();
-    //   this.zombies.push(new_zombie)
-    // }
-
-
+    this.background = makeSprite("Art/level_" + Math.ceil(this.level/2) + "_background.png", layers["background"], this.game_width / 2, this.game_height / 2, 0.5, 0.5),
 
     // this.highlight_color = 0x33CC33;
 
@@ -106,30 +109,18 @@ class TypingGame extends Screen {
     this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
-
     this.successTextBacking = makeText("SUCCESS!", this.black_font, overlay, this.game_width / 2, this.game_height / 2 - 200, 0.5, 0.5);
     this.successText = makeText("SUCCESS!", this.blue_font, overlay, this.game_width / 2 + 8, this.game_height / 2 - 200, 0.5, 0.5);
     this.successTextBacking.visible = false;
     this.successText.visible = false;
 
-
     this.weapon = makeSprite("Art/hammer.png", layers["overlay"], this.game_width / 2, this.game_height / 2, 0.5, 0.5)
     shakers.push(this.weapon);
-    this.readyWeapon();
+    this.weapon.visible = false;
 
     this.zombies = [];
 
     this.wave_size = waves[this.level-1] + dice(6);
-
-
-
-    // this.facts = [];
-
-    // this.game_type = 0;
-
-    // this.initializeFactSheet();
-    // this.cursor = 0;
-    // this.highlightAtCursor();
 
     this.pre_game_art = {
       0: makeSprite("Art/3.png", overlay, this.game_width / 2, this.game_height / 2 - 100, 0.5, 0.5),
@@ -142,19 +133,6 @@ class TypingGame extends Screen {
     this.pre_game_art[2].visible = false;
     this.pre_game_art[3].visible = false;
 
-    // this.timer = makeText("4:00", this.blue_font, overlay, this.game_width - 30, 30, 1, 0),
-    // this.timer.visible = false;
-
-    // this.score = makeText("", this.yellow_font, overlay, this.game_width - 30, this.game_height - 30, 1, 1);
-    // this.score.visible = false;
-
-    // this.bat = makeAnimatedSprite("Art/bat.json", "bat", overlay, this.game_width / 2, this.game_height / 2, 0.5, 0.5);
-    // this.bat.scale.set(0.5,0.5);
-    // this.bat.animationSpeed = 0.75;
-    // this.bat.play();
-    // this.bat.x = -400;
-    // this.bat.target = null;
-
     this.last_zombie = markTime();
     this.next_zombie = 500;
     this.start_time = markTime()
@@ -162,31 +140,32 @@ class TypingGame extends Screen {
     // setMusic(pick(["Level1","Level2","Level3","Level4","Level5"]));
     setMusic(music_for[this.level-1])
 
-
-    // this.countDownThenStart();
+    this.countDownThenStart();
     this.mode = "game";
-    
+    delay(function() {
+      self.readyWeapon();
+    }, 3500);
   }
 
 
   countDownThenStart() {
     var self = this;
 
-    soundEffect("countdown")
+    // soundEffect("countdown")
     this.mode = "countdown";
     delay(function() {
       self.pre_game_art[0].visible = true;
-    }, 429)
+    }, 500)
 
     delay(function() {
       self.pre_game_art[0].visible = false;
       self.pre_game_art[1].visible = true;
-    }, 1429)
+    }, 1500)
 
     delay(function() {
       self.pre_game_art[1].visible = false;
       self.pre_game_art[2].visible = true;
-    }, 2429)
+    }, 2500)
 
     delay(function() {
       self.mode = "game";
@@ -194,14 +173,13 @@ class TypingGame extends Screen {
       self.pre_game_art[3].visible = true;
 
       self.start_time = markTime()
-      self.timer.visible = true;
 
       self.makeZombie();
-    }, 3429)
+    }, 3500)
 
     delay(function() {
       self.pre_game_art[3].visible = false;
-    }, 4429)
+    }, 4500)
   }
 
 
@@ -249,6 +227,8 @@ class TypingGame extends Screen {
 
 
   readyWeapon() {
+    if (this.mode != "game") return;
+
     this.weapon.visible = true;
     this.weapon.status = "ready";
     this.weapon.x = this.game_width / 2 - 80;
@@ -275,20 +255,6 @@ class TypingGame extends Screen {
     this.panel.visible = false;
     this.letterTextBacking.visible = false;
     this.letterText.visible = false;
-  }
-
-
-  endLevel() {
-    this.weapon.visible = false;
-    this.panel.visible = false;
-    this.letterTextBacking.visible = false;
-    this.letterText.visible = false;
-
-    this.successTextBacking.visible = true;
-    this.successText.visible = true;
-    soundEffect("success");
-
-    this.mode = "finished";
   }
 
 
@@ -336,177 +302,57 @@ class TypingGame extends Screen {
       }, 500)
 
       delay(function() {
-        self.readyWeapon();
+        let some_alive = false;
+        for (let i = 0; i < self.zombies.length; i++) {
+          let zombie = self.zombies[i];
+          if (zombie.status == "alive") {
+            some_alive = true;
+          }
+        }
+        if (self.wave_size > 0 || some_alive) self.readyWeapon();
       }, 700)
-
-
-      
-      
-      
     }
   }
 
-  // initializeFactSheet() {
-  //   let left_margin = 140;
-  //   let top_margin = 60;
-  //   let x_spacing = 120;
-  //   let y_spacing = 160;
-  //   let counter = 0;
-
-  //   let fact_layer = this.layers["facts"];
-
-  //   while(fact_layer.children[0]) {
-  //     let x = fact_layer.removeChild(fact_layer.children[0]);
-  //     x.destroy();
-  //   }
-
-  //   this.facts = [];
-
-  //   console.log("Game type is " + this.game_type)
-  //   let operator = operators[this.game_type];
-  //   console.log(operator);
-
-  //   if (operator=== "+") {
-  //     this.allowed_time = 240;
-  //   } else if (operator=== "-") {
-  //     this.allowed_time = 300;
-  //   } else if (operator=== "*") {
-  //     this.allowed_time = 240;
-  //   } else if (operator=== "/") {
-  //     this.allowed_time = 360;
-  //   } else if (operator === "mixed") {
-  //     this.allowed_time = 300;
-  //   }
-    
-
-  //   for (let j = 0; j < 10; j++) {      
-  //     for (let i = 0; i < 10; i++) {
-
-  //       let o = operator;
-  //       if (o === "mixed") {
-  //         o = pick(["+","-","*","/"]);
-  //       }
-
-  //       let a = 0;
-  //       let b = 0;
-  //       if (o === "+") {
-  //         a = dice(10) - 1;
-  //         b = dice(10) - 1;
-  //       } else if (o === "-") {
-  //         a = dice(20);
-  //         b = dice(a);
-  //       } else if (o === "*") {
-  //         a = dice(10);
-  //         b = dice(10);
-  //       } else if (o === "/") {
-  //         let f = dice(7);
-  //         b = dice(7);
-  //         a = b * f;
-  //       } 
-        
-  //       let p = null;
-  //       if (counter % 10 == 0) p = makeText(counter + 1 + ".", this.small_gray_font, fact_layer, left_margin + i * x_spacing - 60, top_margin + j * y_spacing, 1, 0)
-
-  //       this.facts.push({
-  //         terms: [a,b],
-  //         operator: o,
-  //         problem_number: p,
-  //         textbox: makeText(a + "\n" + o + " " + b, this.game_font, fact_layer, left_margin + i * x_spacing, top_margin + j * y_spacing, 1, 0),
-  //         line: makeBlank(fact_layer, 48, 4, left_margin - 55 + i * x_spacing + 4, top_margin + j * y_spacing + 80, 0x000000),
-  //         answerbox: makeText("", this.game_font, fact_layer, left_margin + i * x_spacing, top_margin + j * y_spacing + 90, 1, 0),
-  //       });
-
-  //       counter += 1;
-  //     }
-  //   }
-  // }
 
 
-  // highlightAtCursor() {
-  //   for (let i = 0; i < 100; i++) {
-  //     if (this.mode == "game" && i == this.cursor) {
-  //       this.facts[i].textbox.style = this.highlight_font;
-  //       this.facts[i].answerbox.style = this.highlight_font;
-  //       this.facts[i].line.tint = this.highlight_color;
-  //     } else {
-  //       this.facts[i].textbox.style = this.black_font;
-  //       this.facts[i].answerbox.style = this.black_font;
-  //       this.facts[i].line.tint = 0x000000;
-  //     }
-  //   }
+  checkLevelEnd() {
+    if (this.wave_size <= 0) {
+      let alive_zombies = false;
+      for (let i = 0; i < this.zombies.length; i++) {
+        let zombie = this.zombies[i];
+        if (zombie.status != "dead") {
+          // console.log("still alive");
+          alive_zombies = true;
+        }
+      }
+      // console.log(alive_zombies);
+      if (!alive_zombies) {
+        // console.log("done!")
+        this.endLevel();
+      }
+    }
+  }
 
-  //   this.layers["facts"].y = -100 * Math.floor(this.cursor / 10);
-  // }
+  endLevel() {
+    var self = this;
+    this.weapon.visible = false;
+    this.panel.visible = false;
+    this.letterTextBacking.visible = false;
+    this.letterText.visible = false;
 
+    this.successTextBacking.visible = true;
+    this.successText.visible = true;
+    soundEffect("success");
 
-  // checkFinished() {
-  //   let finished = true;
-  //   for (let i = 0; i < 100; i++) {
-  //     if(this.facts[i].answerbox.text.length == 0) finished = false;
-  //   }
-  //   return finished;
-  // }
+    this.mode = "finished";
 
-
-  // endGame() {
-  //   this.mode = "end_game";
-  //   stopMusic();
-  //   soundEffect("ding");
-  //   delay(function() {
-  //     soundEffect("ding");
-  //   }, 200)
-  //   delay(function() {
-  //     soundEffect("ding");
-  //   }, 400)
-
-  //   let final_time_remaining = Math.ceil(this.allowed_time - timeSince(this.start_time) / 1000)
-  //   let minutes_remaining = Math.floor(final_time_remaining / 60);
-  //   let seconds_remaining = (final_time_remaining % 60)
-
-  //   this.timer.text = minutes_remaining + ":" + (seconds_remaining < 10 ? "0" + seconds_remaining.toString() : seconds_remaining);
-  
-  //   // Compute right scores
-  //   let correct = 0;
-  //   for (let i = 0; i < 100; i++) {
-  //     let correct_answer = 0;
-  //     let o = this.facts[i].operator;
-  //     if (o === "+") {
-  //       correct_answer = this.facts[i].terms[0] + this.facts[i].terms[1];
-  //     } else if (o === "-") {
-  //       correct_answer = this.facts[i].terms[0] - this.facts[i].terms[1];
-  //     } else if (o === "*") {
-  //       correct_answer = this.facts[i].terms[0] * this.facts[i].terms[1];
-  //     } else if (o === "/") {
-  //       correct_answer = Math.floor(this.facts[i].terms[0] / this.facts[i].terms[1]);
-  //     }
-      
-  //     let player_answer = parseInt(this.facts[i].answerbox.text);
-
-  //     if (correct_answer == player_answer) correct += 1;
-
-  //     this.score.visible = true;
-  //     this.score.text = "Score:\n" + correct + "\n\n"
-  //     if (correct < 50) {
-  //       this.score.text += "Too Bad"
-  //       this.score.style = this.red_font;
-  //     } else if (correct < 75) {
-  //       this.score.text += "Not Bad"
-  //       this.score.style = this.yellow_font;
-  //     } else if (correct < 90) {
-  //       this.score.text += "Better!"
-  //       this.score.style = this.yellow_font;
-  //     } else if (correct < 100) {
-  //       this.score.text += "Close!"
-  //       this.score.style = this.highlight_font
-  //     } else if (correct == 100) {
-  //       this.score.text += "WINNER!"
-  //       this.score.style = this.highlight_font
-  //     }
-  //   }
-
-
-  // }
-
+    if (this.level < 10) {
+      delay(function() {
+        self.loadLevel(self.level + 1)
+      }, 3000)
+    };
+  }
 
 
   keyDown(ev) {
@@ -517,6 +363,10 @@ class TypingGame extends Screen {
     if (this.mode == "game") {
       if (key.toUpperCase() === this.weapon.letter) {
         this.killZombie();
+      }
+
+      if (key === "Backspace" || key === "Delete") {
+        this.loadLevel(this.level + 1);
       }
     }
 
@@ -620,20 +470,6 @@ class TypingGame extends Screen {
   }
 
 
-  // launchBat() {
-  //   console.log("launching bat");
-  //   this.bat.y = this.game_height / 2 - 400 + dice(400);
-  //   let d = dice(2);
-  //   if(d == 1) {
-  //     this.bat.x = -400;
-  //     this.bat.target = [this.game_width + 400, this.game_height / 2 - 400 + dice(400)];
-  //   } else {
-  //     this.bat.x = this.game_width + 400;
-  //     this.bat.target = [-400, this.game_height / 2 - 400 + dice(400)];
-  //   }
-  // }
-
-
   // Regular update method
   update(diff) {
     let self = this;
@@ -661,58 +497,11 @@ class TypingGame extends Screen {
         this.makeZombie();
       }
 
-      if (this.wave_size <= 0) {
-        let alive_zombies = false;
-        for (let i = 0; i < this.zombies.length; i++) {
-          let zombie = this.zombies[i];
-          if (zombie.status != "dead") {
-            // console.log("still alive");
-            alive_zombies = true;
-          }
-        }
-        // console.log(alive_zombies);
-        if (!alive_zombies) {
-          // console.log("done!")
-          this.endLevel();
-        }
-      }
-
-
+      this.checkLevelEnd();
     }
 
     shakeDamage();
     freeeeeFreeeeeFalling(fractional);
-
-
-    // if (this.mode == "game") {
-    //   if (this.bat.target != null) {
-    //     this.bat.x = 0.98 * this.bat.x + 0.02 * this.bat.target[0];
-    //     this.bat.y = 0.98 * this.bat.y + 0.02 * this.bat.target[1];
-    //     if (distance(this.bat.x, this.bat.y, this.bat.target[0], this.bat.target[1]) < 20) {
-    //       this.bat.target = null;
-    //       delay(function() {
-    //         self.launchBat();
-    //       }, 5000 + dice(8000))
-    //     }
-    //   }
-    // } else {
-    //   this.bat.x = -400;
-    // }
-
-
-    // if (this.mode == "game") {
-    //   this.timer.visible = true;
-
-    //   let time_remaining = Math.ceil(this.allowed_time - timeSince(this.start_time) / 1000)
-    //   let minutes_remaining = Math.floor(time_remaining / 60);
-    //   let seconds_remaining = (time_remaining % 60)
-
-    //   this.timer.text = minutes_remaining + ":" + (seconds_remaining < 10 ? "0" + seconds_remaining.toString() : seconds_remaining);
-    
-    //   if (time_remaining <= 0) {
-    //     this.endGame();
-    //   }
-    // }
   }
 }
 
