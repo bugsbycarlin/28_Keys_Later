@@ -2,6 +2,8 @@ Release/
 Reference/
 Content/
 Design/
+Game/node_modules/
+Game/Data/
 Application/node_modules/
 Application/Data/
 .DS_Store
