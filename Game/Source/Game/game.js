@@ -171,9 +171,13 @@ class Game {
     Assets.add({ alias: "go", src: "Art/go.png" });
     Assets.add({ alias: "hammer", src: "Art/hammer.png" });
     Assets.add({ alias: "typing_panel", src: "Art/typing_panel.png" });
+    Assets.add({ alias: "live_heart", src: "Art/live_heart.png" });
+    Assets.add({ alias: "dead_heart", src: "Art/dead_heart.png" });
     Assets.add({ alias: "level_1_background", src: "Art/level_1_background.png" });
     Assets.add({ alias: "level_2_background", src: "Art/level_2_background.png" });
     Assets.add({ alias: "level_3_background", src: "Art/level_3_background.png" });
+    Assets.add({ alias: "level_4_background", src: "Art/level_4_background.png" });
+    Assets.add({ alias: "level_5_background", src: "Art/level_5_background.png" });
     Assets.add({ alias: "zombie_01", src: "Art/Zombies/zombie_01.json" });
     Assets.add({ alias: "zombie_08", src: "Art/Zombies/zombie_08.json" });
     Assets.add({ alias: "zombie_11", src: "Art/Zombies/zombie_11.json" });
@@ -184,10 +188,13 @@ class Game {
     const assetsPromise = Assets.load(
       ["3","2","1","go",
       "hammer","typing_panel",
+      "live_heart","dead_heart",
       "Wonderbar.otf",
       "level_1_background",
       "level_2_background",
       "level_3_background",
+      "level_4_background",
+      "level_5_background",
       "zombie_01","zombie_08","zombie_11",
       "zombie_13","zombie_16","zombie_17"],
     );

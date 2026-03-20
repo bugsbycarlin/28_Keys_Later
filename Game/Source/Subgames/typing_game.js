@@ -24,7 +24,7 @@ let speeds = [
   0.35, 0.55,
   0.4, 0.6,
   0.45, 0.65,
-  0.5, 0.7,
+  0.5, 0.7, 0.9
   ]
 
 let waves = [
@@ -32,15 +32,23 @@ let waves = [
   9, 11,
   13, 15,
   17, 19,
-  21, 23,
+  21, 23, 75
   ]
+
+let hp = [
+  8, 8,
+  7, 7,
+  6, 6,
+  5, 5,
+  4, 4, 4
+]
 
 let zombie_delays = [
   2500,2300,
   2100,1900,
   1700,1500,
   1300,1100,
-  900,700,
+  900,700,200
   ]
 
 let music_for = [
@@ -48,7 +56,7 @@ let music_for = [
   "Level2","Level2",
   "Level3","Level3",
   "Level4","Level4",
-  "Level5","Level5",
+  "Level5","Level5","Level5"
 ]
 
 class TypingGame extends Screen {
@@ -74,7 +82,7 @@ class TypingGame extends Screen {
     layers["overlay"] = new PIXI.Container();
     this.addChild(layers["overlay"]);
 
-    this.loadLevel(4);
+    this.loadLevel(11);
   }
 
   loadLevel(level_number) {
@@ -91,7 +99,7 @@ class TypingGame extends Screen {
     
     let overlay = layers["overlay"];
 
-    this.background = makeSprite("Art/level_" + Math.ceil(this.level/2) + "_background.png", layers["background"], this.game_width / 2, this.game_height / 2, 0.5, 0.5),
+    this.background = makeSprite("Art/level_" + Math.ceil(Math.min(this.level,10)/2) + "_background.png", layers["background"], this.game_width / 2, this.game_height / 2, 0.5, 0.5),
 
     // this.highlight_color = 0x33CC33;
 
@@ -121,6 +129,15 @@ class TypingGame extends Screen {
     this.zombies = [];
 
     this.wave_size = waves[this.level-1] + dice(6);
+
+    this.hp = hp[this.level-1];
+    this.hearts = [];
+    for (let i = 0; i < this.hp; i++) {
+      console.log(i);
+      let dead_heart = makeSprite("Art/dead_heart.png", overlay, 5 + 100 * (i % 4), -12 + 84*Math.floor(i/4), 0, 0);
+      let live_heart = makeSprite("Art/live_heart.png", overlay, 5 + 100 * (i % 4), -12 + 84*Math.floor(i/4), 0, 0);
+      this.hearts.push([live_heart,dead_heart]);
+    }
 
     this.pre_game_art = {
       0: makeSprite("Art/3.png", overlay, this.game_width / 2, this.game_height / 2 - 100, 0.5, 0.5),
