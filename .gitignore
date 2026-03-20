@@ -1,0 +1,7 @@
+Release/
+Reference/
+Content/
+Design/
+Application/node_modules/
+Application/Data/
+.DS_Store
