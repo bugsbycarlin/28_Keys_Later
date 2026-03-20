@@ -1,4 +1,4 @@
-![Just some zombies](https://github.com/bugsbycarlin/28_Keys_Later/refs/heads/master/Art/screenshot.jpg)
+![Just some zombies](https://github.com/bugsbycarlin/28_Keys_Later/refs/heads/master/Art/screenshot.jpg?raw=true)
 
 
 
