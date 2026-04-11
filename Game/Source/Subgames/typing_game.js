@@ -6,59 +6,6 @@
 // Written by Matthew Carlin
 //
 
-let zombies = [
-  "zombie_01","zombie_08","zombie_11",
-  "zombie_13","zombie_16","zombie_17"
-  ];
-
-let boy_zombies = [
-  "zombie_01","zombie_08","zombie_11",
-]
-
-let girl_zombies = [
-  "zombie_13","zombie_16","zombie_17"
-]
-
-let speeds = [
-  0.3, 0.5,
-  0.35, 0.55,
-  0.4, 0.6,
-  0.45, 0.65,
-  0.5, 0.7, 0.9
-  ]
-
-let waves = [
-  5, 7,
-  9, 11,
-  13, 15,
-  17, 19,
-  21, 23, 75
-  ]
-
-let hp = [
-  8, 8,
-  7, 7,
-  6, 6,
-  5, 5,
-  4, 4, 4
-]
-
-let zombie_delays = [
-  2500,2300,
-  2100,1900,
-  1700,1500,
-  1300,1100,
-  900,700,200
-  ]
-
-let music_for = [
-  "Level1","Level1",
-  "Level2","Level2",
-  "Level3","Level3",
-  "Level4","Level4",
-  "Level5","Level5","Level5"
-]
-
 class TypingGame extends Screen {
   // Set up the screen
   initialize(width, height) {
@@ -82,7 +29,13 @@ class TypingGame extends Screen {
     layers["overlay"] = new PIXI.Container();
     this.addChild(layers["overlay"]);
 
-    this.loadLevel(11);
+    layers["damage_flash"] = new PIXI.Container();
+    this.addChild(layers["damage_flash"]);
+
+    layers["success_or_gameover"] = new PIXI.Container();
+    this.addChild(layers["success_or_gameover"]);
+
+    this.loadLevel(starting_level);
   }
 
   loadLevel(level_number) {
@@ -96,19 +49,26 @@ class TypingGame extends Screen {
     layers["background"].removeChildren();
     layers["zombies"].removeChildren();
     layers["overlay"].removeChildren();
+    layers["success_or_gameover"].removeChildren();
     
     let overlay = layers["overlay"];
 
-    this.background = makeSprite("Art/level_" + Math.ceil(Math.min(this.level,10)/2) + "_background.png", layers["background"], this.game_width / 2, this.game_height / 2, 0.5, 0.5),
+    this.background = makeSprite("Art/level_" + Math.ceil(this.level/2) + "_background.png", layers["background"], this.game_width / 2, this.game_height / 2, 0.5, 0.5);
+
+    if (this.level == 11) {
+      this.background_overlay =  makeSprite("Art/level_6_overlay.png", layers["overlay"], this.game_width / 2, this.game_height / 2+3, 0.5, 0.5)
+    }
+
+    this.damage_flash = makeBlank(layers["damage_flash"], this.game_width, this.game_height, 0, 0, 0xFF0000)
+    this.damage_flash.alpha = 0
 
     // this.highlight_color = 0x33CC33;
 
-    this.black_font = {fontFamily: "Arial", fontSize: 144, fontWeight: 200, fill: 0x000000, letterSpacing: 1, align: "right"};    
-    // this.red_font = {fontFamily: "Arial", fontSize: 36, fontWeight: 200, fill: 0xDD3333, letterSpacing: 1, align: "right"};    
-    this.blue_font = {fontFamily: "Arial", fontSize: 144, fontWeight: 200, fill: 0x3333DD, letterSpacing: 1, align: "right"};    
-    this.yellow_font = {fontFamily: "Arial", fontSize: 144, fontWeight: 200, fill: 0xDBCC79, letterSpacing: 1, align: "right"}; 
-    // this.highlight_font = {fontFamily: "Arial", fontSize: 36, fontWeight: 200, fill: this.highlight_color, letterSpacing: 1, align: "right"};    
-    // this.small_gray_font = {fontFamily: "Arial", fontSize: 18, fontWeight: 200, fill: 0xcccccc, letterSpacing: 1, align: "right"};    
+    this.black_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0x000000, letterSpacing: 1, align: "right"};    
+    this.red_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDD3333, letterSpacing: 1, align: "right"}; 
+    this.blue_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0x3333DD, letterSpacing: 1, align: "right"};    
+    this.yellow_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDBCC79, letterSpacing: 1, align: "right"}; 
+  
 
     this.panel = makeSprite("Art/typing_panel.png", layers["overlay"], this.game_width / 2 - 10, 10, 0.5, 0)
     this.letterTextBacking = makeText("K", this.black_font, overlay, this.game_width / 2 + 130 - 8, 190, 1, 1);
@@ -117,12 +77,25 @@ class TypingGame extends Screen {
     this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
-    this.successTextBacking = makeText("SUCCESS!", this.black_font, overlay, this.game_width / 2, this.game_height / 2 - 200, 0.5, 0.5);
-    this.successText = makeText("SUCCESS!", this.blue_font, overlay, this.game_width / 2 + 8, this.game_height / 2 - 200, 0.5, 0.5);
+    this.successBackground = makeSprite("Art/success.png", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
+    this.successBackground.scale.set(0.62,0.62);
+    this.successBackground.visible = false;
+
+    this.successTextBacking = makeText("SUCCESS!", this.black_font, layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 200, 0.5, 0.5);
+    this.successText = makeText("SUCCESS!", this.blue_font, layers["success_or_gameover"], this.game_width / 2 + 8, this.game_height / 2 - 200, 0.5, 0.5);
     this.successTextBacking.visible = false;
     this.successText.visible = false;
 
-    this.weapon = makeSprite("Art/hammer.png", layers["overlay"], this.game_width / 2, this.game_height / 2, 0.5, 0.5)
+    this.gameoverBackground = makeSprite("Art/gameover.png", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
+    this.gameoverBackground.scale.set(0.62,0.62);
+    this.gameoverBackground.visible = false;
+
+    this.gameoverTextBacking = makeText("GAME OVER!", this.black_font, layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 200, 0.5, 0.5);
+    this.gameoverText = makeText("GAME OVER!", this.red_font, layers["success_or_gameover"], this.game_width / 2 + 8, this.game_height / 2 - 200, 0.5, 0.5);
+    this.gameoverTextBacking.visible = false;
+    this.gameoverText.visible = false;
+
+    this.weapon = makeSprite("Art/" + weapons[this.level-1] + ".png", layers["overlay"], this.game_width / 2, this.game_height / 2, 0.5, 0.5)
     shakers.push(this.weapon);
     this.weapon.visible = false;
 
@@ -332,7 +305,6 @@ class TypingGame extends Screen {
   }
 
 
-
   checkLevelEnd() {
     if (this.wave_size <= 0) {
       let alive_zombies = false;
@@ -346,13 +318,19 @@ class TypingGame extends Screen {
       // console.log(alive_zombies);
       if (!alive_zombies) {
         // console.log("done!")
-        this.endLevel();
+        this.winLevel();
       }
     }
   }
 
-  endLevel() {
+
+  winLevel() {
     var self = this;
+
+    if (this.mode =- "finished") return;
+
+    stopMusic();
+
     this.weapon.visible = false;
     this.panel.visible = false;
     this.letterTextBacking.visible = false;
@@ -360,6 +338,7 @@ class TypingGame extends Screen {
 
     this.successTextBacking.visible = true;
     this.successText.visible = true;
+    this.successBackground.visible = true;
     soundEffect("success");
 
     this.mode = "finished";
@@ -367,8 +346,58 @@ class TypingGame extends Screen {
     if (this.level < 10) {
       delay(function() {
         self.loadLevel(self.level + 1)
-      }, 3000)
+      }, 4000)
     };
+  }
+
+
+  loseLevel() {
+    var self = this;
+
+    if (this.mode =- "finished") return;
+
+    stopMusic();
+
+    this.weapon.visible = false;
+    this.panel.visible = false;
+    this.letterTextBacking.visible = false;
+    this.letterText.visible = false;
+
+    this.gameoverTextBacking.visible = true;
+    this.gameoverText.visible = true;
+    this.gameoverBackground.visible = true;
+    soundEffect("gameover");
+
+    this.mode = "finished";
+
+    if (this.level < 10) {
+      delay(function() {
+        self.loadLevel(self.level)
+      }, 6000)
+    };
+  }
+
+
+  hurtPlayer() {
+    var self = this;
+    let layers = this.layers;
+
+    if (this.hp <= 1) {
+      this.loseLevel();
+      return;
+    }
+
+    soundEffect("hurt");
+
+    this.damage_flash.alpha = 1
+    new TWEEN.Tween(this.damage_flash)
+          .to({alpha: 0})
+          .easing(TWEEN.Easing.Quartic.Out)
+          .duration(200)
+          .start();
+
+    this.hp -= 1;
+    layers["overlay"].removeChild(this.hearts[this.hp][0]);
   }
 
 
@@ -501,6 +530,16 @@ class TypingGame extends Screen {
         if(timeSince(zombie.last_sound) > zombie.sound_delay) {
           soundEffect(zombie.sound);
           zombie.last_sound = markTime();
+        }
+
+        // if the zombie gets across the screen, kill the zombie and hurt the player
+        if (zombie.x < -60) {
+          zombie.status = "dying";
+          freefalling.push(zombie);
+          makeSplash(this.layers["overlay"], zombie.x + 60, zombie.y, 1, 1)
+          zombie.x = -300;
+          zombie.vy = -15;
+          this.hurtPlayer();
         }
 
       } else if (zombie.status == "dying") {

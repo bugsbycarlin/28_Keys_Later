@@ -165,20 +165,31 @@ class Game {
     let Assets = PIXI.Assets;
 
     Assets.add({ alias: "Wonderbar.otf", src:"Wonderbar.otf", data: { scaleMode: PIXI.SCALE_MODES.NEAREST }});
+    Assets.add({ alias: "Komika_Axis.ttf", src:"Komika_Axis.ttf", data: { scaleMode: PIXI.SCALE_MODES.NEAREST }}); 
     Assets.add({ alias: "3", src: "Art/3.png" });
     Assets.add({ alias: "2", src: "Art/2.png" });
     Assets.add({ alias: "1", src: "Art/1.png" });
     Assets.add({ alias: "go", src: "Art/go.png" });
     Assets.add({ alias: "hammer", src: "Art/hammer.png" });
+    Assets.add({ alias: "sword", src: "Art/sword.png" });
+    Assets.add({ alias: "baseball_bat", src: "Art/baseball_bat.png" });
+    Assets.add({ alias: "cricket_bat", src: "Art/cricket_bat.png" });
     Assets.add({ alias: "typing_panel", src: "Art/typing_panel.png" });
     Assets.add({ alias: "live_heart", src: "Art/live_heart.png" });
     Assets.add({ alias: "dead_heart", src: "Art/dead_heart.png" });
+    Assets.add({ alias: "success", src: "Art/success.png" });
+    Assets.add({ alias: "gameover", src: "Art/gameover.png" });
+    Assets.add({ alias: "splash", src: "Art/splash.json" });
     Assets.add({ alias: "level_1_background", src: "Art/level_1_background.png" });
     Assets.add({ alias: "level_2_background", src: "Art/level_2_background.png" });
     Assets.add({ alias: "level_3_background", src: "Art/level_3_background.png" });
     Assets.add({ alias: "level_4_background", src: "Art/level_4_background.png" });
     Assets.add({ alias: "level_5_background", src: "Art/level_5_background.png" });
+    Assets.add({ alias: "level_6_background", src: "Art/level_6_background.png" });
+    Assets.add({ alias: "level_6_overlay", src: "Art/level_6_overlay.png" });
     Assets.add({ alias: "zombie_01", src: "Art/Zombies/zombie_01.json" });
+    Assets.add({ alias: "zombie_02", src: "Art/Zombies/zombie_02.json" });
+    Assets.add({ alias: "zombie_03", src: "Art/Zombies/zombie_03.json" });
     Assets.add({ alias: "zombie_08", src: "Art/Zombies/zombie_08.json" });
     Assets.add({ alias: "zombie_11", src: "Art/Zombies/zombie_11.json" });
     Assets.add({ alias: "zombie_13", src: "Art/Zombies/zombie_13.json" });
@@ -187,15 +198,19 @@ class Game {
 
     const assetsPromise = Assets.load(
       ["3","2","1","go",
-      "hammer","typing_panel",
-      "live_heart","dead_heart",
+      "hammer","sword","cricket_bat","baseball_bat",
+      "typing_panel",
+      "live_heart","dead_heart","splash",
+      "success","gameover",
       "Wonderbar.otf",
       "level_1_background",
       "level_2_background",
       "level_3_background",
       "level_4_background",
       "level_5_background",
-      "zombie_01","zombie_08","zombie_11",
+      "level_6_background",
+      "level_6_overlay",
+      "zombie_01","zombie_02","zombie_03","zombie_08","zombie_11",
       "zombie_13","zombie_16","zombie_17"],
     );
     assetsPromise.then((assets) => {

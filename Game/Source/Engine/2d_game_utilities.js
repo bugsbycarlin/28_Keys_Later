@@ -351,6 +351,19 @@ function makePop(parent, x, y, xScale, yScale) {
 }
 
 
+function makeSplash(parent, x, y, xScale, yScale) {
+  let splash_sprite = makeAnimatedSprite("Art/splash.json", "splash", parent, x, y, 0.5, 0.8);
+  splash_sprite.animationSpeed = 0.4;
+  splash_sprite.scale.set(xScale, yScale);
+  splash_sprite.loop = false;
+  splash_sprite.onComplete = function() {
+    parent.removeChild(splash_sprite);
+  }
+  splash_sprite.play();
+  return splash_sprite;
+}
+
+
 function makePixelatedLetterTile(parent, text, color) {
   return makeSprite("Art/PixelatedKeys/pixelated_" + color + "_" + text + ".png", parent, 0, 0, 0.5, 0.5);
 }
