@@ -187,6 +187,7 @@ class Game {
     Assets.add({ alias: "level_5_background", src: "Art/level_5_background.png" });
     Assets.add({ alias: "level_6_background", src: "Art/level_6_background.png" });
     Assets.add({ alias: "level_6_overlay", src: "Art/level_6_overlay.png" });
+    Assets.add({ alias: "dotted_line", src: "Art/dotted_line.png" });
     Assets.add({ alias: "zombie_01", src: "Art/Zombies/zombie_01.json" });
     Assets.add({ alias: "zombie_02", src: "Art/Zombies/zombie_02.json" });
     Assets.add({ alias: "zombie_03", src: "Art/Zombies/zombie_03.json" });
@@ -210,6 +211,7 @@ class Game {
       "level_5_background",
       "level_6_background",
       "level_6_overlay",
+      "dotted_line",
       "zombie_01","zombie_02","zombie_03","zombie_08","zombie_11",
       "zombie_13","zombie_16","zombie_17"],
     );

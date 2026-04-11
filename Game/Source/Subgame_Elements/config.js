@@ -14,6 +14,8 @@ let girl_zombies = [
   "zombie_13","zombie_16","zombie_17"
 ]
 
+// 1160 to 1280 across a 350 vertical range
+
 let speeds = [
   0.3, 0.5,
   0.35, 0.55,
@@ -65,6 +67,7 @@ let weapons = [
 
 let word_lists = {};
 
+word_lists[0] = letter_array;
 word_lists[1] = letter_array;
 word_lists[2] = [
   "ab","am","an","as","at","ax",
@@ -74,7 +77,8 @@ word_lists[2] = [
   "or","ow","ox","pa","pi","so",
   "ta","to","up","us","we","yo",
 ]
-word_lists[3] = [
+word_lists[3] = word_lists[2];
+word_lists[4] = [
   "act","aid","air","and","any","ape","apt","arm","art",
   "ash","ask","ate","bad","bag","bat","bay","bed","bib",
   "big","bin","box","boy","bug","can","cap","car","cat",
@@ -89,7 +93,8 @@ word_lists[3] = [
   "top","toy","try","wag","was","wet","who","why","win",
   "wow","yak","yay","yes","you",
 ]
-word_lists[4] = [
+word_lists[5] = word_lists[4];
+word_lists[6] = [
   "base","head","face","flat","post","iron","port","core","lead","line","node",
   "case","flag","mean","salt","worm","chip","host","mode","note","bias","type",
   "form","acid","file","fish","load","pipe","slip","bear","heat","plug","seal",
@@ -132,7 +137,8 @@ word_lists[4] = [
   "hope","hose","lynx","mead","melt","muse","opus","oval","quit","some","tint",
   "warm","wild","wipe","aloe","away","boar","cake","dawn","dice","dive"
 ]
-word_lists[5] = [
+word_lists[7] = word_lists[6];
+word_lists[8] = [
   "pitch","point","virus","range","block","power","noise","agent","field","crown",
   "scale","index","light","stock","acute","yield","frame","cover","grain","order",
   "draft","break","check","delta","round","cycle","stack","state","water","flash",
@@ -173,6 +179,10 @@ word_lists[5] = [
   "quick","scene","shade","sling","spear","swamp","trait","venue","acorn","blaze",
   "bunch","cargo","chips","couch","crisp","honor","karma","liter","month"
 ]
+word_lists[9] = word_lists[8];
+word_lists[10] = word_lists[9];
+
+
 
 
 

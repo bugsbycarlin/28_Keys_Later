@@ -57,6 +57,7 @@ let sound_files = [
   ["success", "success.wav"],
   ["gameover", "gameover.wav"],
   ["swipe", "swipe.wav"],
+  ["positive", "positive.wav"],
   ["countdown","countdown.mp3"],
   ["Level1", "Level1.mp3"],
   ["Level2", "Level2.mp3"],
