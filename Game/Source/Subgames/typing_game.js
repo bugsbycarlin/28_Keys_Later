@@ -72,16 +72,26 @@ class TypingGame extends Screen {
 
     // this.highlight_color = 0x33CC33;
 
-    this.black_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0x000000, letterSpacing: 1, align: "right"};    
-    this.red_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDD3333, letterSpacing: 1, align: "right"}; 
-    this.blue_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0x3E6294, letterSpacing: 1, align: "right"};    
-    this.white_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 1, align: "right"};    
-    this.yellow_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDBCC79, letterSpacing: 1, align: "right"}; 
+    this.black_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0x000000, letterSpacing: 10, align: "right"};    
+    this.red_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDD3333, letterSpacing: 10, align: "right"}; 
+    this.blue_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0x3E6294, letterSpacing: 10, align: "right"};    
+    this.white_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "right"};    
+    this.yellow_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDBCC79, letterSpacing: 10, align: "right"}; 
+    this.small_white_font = {fontFamily: "Komika Axis", fontSize: 54, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "right"};    
+    
     //old blue 0x3333DD
 
-    this.panel = makeSprite("Art/typing_panel.png", layers["overlay"], this.game_width / 2 - 10, 10, 0.5, 0)
-    this.letterTextBacking = makeText("K", this.black_font, overlay, this.game_width / 2 - 40 - 8, 190, 0, 1);
-    this.letterText = makeText("K", this.white_font, overlay, this.game_width / 2 - 40, 190, 0, 1);
+    let word = pick(word_lists[this.level - 1]);
+    this.panel = makeContainer(layers["overlay"], this.game_width / 2 - 10, 10);
+    let panel_left = makeSprite("Art/typing_panel_left.png", this.panel, 0 - 192 - 48 * word.length, 0, 0);
+    let panel_right = makeSprite("Art/typing_panel_right.png", this.panel, 48 * word.length, 0, 0);
+    for (let i = 0; i < word.length; i++) {
+      let panel_middle = makeSprite("Art/typing_panel_middle.png", this.panel, -48 * word.length + 96 * i, 0, 0);
+      panel_middle.scale.set(0.75,1);
+    }
+
+    this.letterTextBacking = makeText("K", this.black_font, overlay, this.game_width / 2 + 24 - 8 - 48 * word.length, 190, 0, 1);
+    this.letterText = makeText("K", this.white_font, overlay, this.game_width / 2 + 24 - 48 * word.length, 190, 0, 1);
     this.letterText.tint = 0x3E6294;
     this.panel.visible = false;
     this.letterTextBacking.visible = false;
@@ -105,13 +115,25 @@ class TypingGame extends Screen {
     this.gameoverTextBacking.visible = false;
     this.gameoverText.visible = false;
 
-    this.weapon = makeSprite("Art/" + weapons[this.level-1] + ".png", layers["overlay"], this.game_width / 2, this.game_height / 2, 0.5, 0.5)
+    this.weapon = makeSprite("Art/" + weapons[this.level-1] + ".png", layers["overlay"], this.game_width / 2 + 24 - 48 * (word.length+1), this.game_height / 2 - 300, 0.5, 0.5)
+    this.weapon.scale.set(0.8,0.8);
     shakers.push(this.weapon);
     this.weapon.visible = false;
+
 
     this.zombies = [];
 
     this.wave_size = waves[this.level-1] + dice(6);
+    this.remaining_zombies = this.wave_size + 1;
+
+    this.zombieCountTextBacking = makeText(" " + this.remaining_zombies + " ", this.small_white_font, overlay, this.game_width - 94, 0, 0.5, 0);
+    this.zombieCountTextBacking.tint = 0x000000;
+    this.zombieCountText = makeText(" " + this.remaining_zombies + " ", this.small_white_font, overlay, this.game_width - 90, 0, 0.5, 0);
+    this.zombieGlyphBacking = makeSprite("Art/zombie_glyph.png", overlay, this.game_width - 8, 5, 1, 0);
+    this.zombieGlyphBacking.scale.set(0.25,0.25);
+    this.zombieGlyphBacking.tint = 0x000000;
+    this.zombieGlyph = makeSprite("Art/zombie_glyph.png", overlay, this.game_width - 4, 5, 1, 0);
+    this.zombieGlyph.scale.set(0.25,0.25);
 
     this.hp = hp[this.level-1];
     this.hearts = [];
@@ -251,10 +273,6 @@ class TypingGame extends Screen {
 
     this.weapon.visible = true;
     this.weapon.status = "ready";
-    this.weapon.x = this.game_width / 2 - 80;
-    this.weapon.y = 140;
-    this.weapon.angle = 0;
-    this.weapon.scale.set(0.8,0.8);
     this.weapon.word = pick(word_lists[this.level - 1]);
     this.weapon.letter_count = 0;
 
@@ -324,6 +342,7 @@ class TypingGame extends Screen {
 
       delay(function() {
         closest_zombie.status = "dying";
+        self.dropCount();
         freefalling.push(closest_zombie);
         closest_zombie.vy = -15;
         new_weapon.shake = markTime();
@@ -435,6 +454,12 @@ class TypingGame extends Screen {
     layers["overlay"].removeChild(this.hearts[this.hp][0]);
   }
 
+  dropCount() {
+    this.remaining_zombies -= 1;
+    this.zombieCountTextBacking.text = " " + this.remaining_zombies + " ";
+    this.zombieCountText.text = " " + this.remaining_zombies + " ";
+  }
+
 
   keyDown(ev) {
     var self = this;
@@ -445,8 +470,12 @@ class TypingGame extends Screen {
       console.log(this.weapon.word[0]);
 
       if (this.weapon.letter_count < this.weapon.word.length) {
+        console.log("hey");
         let next_letter = this.weapon.word[this.weapon.letter_count]
-        if (key.toLowerCase() == next_letter) {
+        console.log(key.toLowerCase());
+        console.log(next_letter);
+        if (key.toLowerCase() == next_letter.toLowerCase()) {
+          console.log("oh");
           this.weapon.letter_count += 1;
           this.letterText.text = " " + this.weapon.word.substring(0, this.weapon.letter_count) + " ";
         
@@ -456,14 +485,13 @@ class TypingGame extends Screen {
         }
       }
 
-
       // if (key.toLowerCase() === this.weapon.word[0]) {
       //   this.killZombie();
       // }
 
-      if (key === "Backspace" || key === "Delete") {
-        this.loadLevel(this.level + 1);
-      }
+      // if (key === "Backspace" || key === "Delete") {
+      //   this.loadLevel(this.level + 1);
+      // }
     }
   }
 
@@ -487,6 +515,7 @@ class TypingGame extends Screen {
         // if the zombie gets across the screen, kill the zombie and hurt the player
         if (zombie.x < -60) {
           zombie.status = "dying";
+          this.dropCount();
           freefalling.push(zombie);
           makeSplash(this.layers["overlay"], zombie.x + 60, zombie.y, 1, 1)
           zombie.x = -300;

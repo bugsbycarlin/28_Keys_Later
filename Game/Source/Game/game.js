@@ -174,9 +174,12 @@ class Game {
     Assets.add({ alias: "sword", src: "Art/sword.png" });
     Assets.add({ alias: "baseball_bat", src: "Art/baseball_bat.png" });
     Assets.add({ alias: "cricket_bat", src: "Art/cricket_bat.png" });
-    Assets.add({ alias: "typing_panel", src: "Art/typing_panel.png" });
+    Assets.add({ alias: "typing_panel_left", src: "Art/typing_panel_left.png" });
+    Assets.add({ alias: "typing_panel_right", src: "Art/typing_panel_right.png" });
+    Assets.add({ alias: "typing_panel_middle", src: "Art/typing_panel_middle.png" });
     Assets.add({ alias: "live_heart", src: "Art/live_heart.png" });
     Assets.add({ alias: "dead_heart", src: "Art/dead_heart.png" });
+    Assets.add({ alias: "zombie_glyph", src: "Art/zombie_glyph.png" });
     Assets.add({ alias: "success", src: "Art/success.png" });
     Assets.add({ alias: "gameover", src: "Art/gameover.png" });
     Assets.add({ alias: "splash", src: "Art/splash.json" });
@@ -200,8 +203,8 @@ class Game {
     const assetsPromise = Assets.load(
       ["3","2","1","go",
       "hammer","sword","cricket_bat","baseball_bat",
-      "typing_panel",
-      "live_heart","dead_heart","splash",
+      "typing_panel_left","typing_panel_right","typing_panel_middle",
+      "live_heart","dead_heart","zombie_glyph", "splash",
       "success","gameover",
       "Wonderbar.otf",
       "level_1_background",

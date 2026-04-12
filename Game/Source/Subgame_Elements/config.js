@@ -1,5 +1,5 @@
 
-starting_level = 6;
+starting_level = 1;
 
 let zombies = [
   "zombie_01","zombie_02","zombie_03","zombie_08","zombie_11",
