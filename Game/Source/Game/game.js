@@ -207,6 +207,7 @@ class Game {
       "live_heart","dead_heart","zombie_glyph", "splash",
       "success","gameover",
       "Wonderbar.otf",
+      "Komika_Axis.ttf", // this might have been why it wasn't working on the other computer
       "level_1_background",
       "level_2_background",
       "level_3_background",

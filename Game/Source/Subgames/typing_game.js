@@ -394,7 +394,7 @@ class TypingGame extends Screen {
 
     this.mode = "finished";
 
-    if (this.level < 10) {
+    if (this.level < 11) {
       delay(function() {
         self.loadLevel(self.level + 1)
       }, 4000)
