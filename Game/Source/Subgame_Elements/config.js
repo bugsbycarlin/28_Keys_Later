@@ -2,12 +2,12 @@
 starting_level = 1;
 
 let zombies = [
-  "zombie_01","zombie_02","zombie_03","zombie_08","zombie_11",
+  "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05","zombie_08","zombie_11",
   "zombie_13","zombie_16","zombie_17"
   ];
 
 let boy_zombies = [
-  "zombie_01","zombie_02","zombie_08","zombie_11",
+  "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05","zombie_08","zombie_11",
 ]
 
 let girl_zombies = [
