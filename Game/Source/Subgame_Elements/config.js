@@ -1,17 +1,22 @@
 
-starting_level = 1;
+starting_level =  1;
 
 let zombies = [
-  "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05","zombie_08","zombie_11",
-  "zombie_13","zombie_16","zombie_17"
+  "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05",
+  "zombie_06","zombie_07","zombie_08","zombie_09","zombie_10",
+  "zombie_11","zombie_12","zombie_13","zombie_14","zombie_15",
+  "zombie_16","zombie_17"
   ];
 
 let boy_zombies = [
-  "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05","zombie_08","zombie_11",
+  "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05",
+  "zombie_06","zombie_07","zombie_08","zombie_09","zombie_10",
+  "zombie_11",
 ]
 
 let girl_zombies = [
-  "zombie_13","zombie_16","zombie_17"
+  "zombie_12","zombie_13","zombie_14",
+  "zombie_15","zombie_16","zombie_17"
 ]
 
 // 1160 to 1280 across a 350 vertical range

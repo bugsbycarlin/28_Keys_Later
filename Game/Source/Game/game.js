@@ -196,9 +196,16 @@ class Game {
     Assets.add({ alias: "zombie_03", src: "Art/Zombies/zombie_03.json" });
     Assets.add({ alias: "zombie_04", src: "Art/Zombies/zombie_04.json" });
     Assets.add({ alias: "zombie_05", src: "Art/Zombies/zombie_05.json" });
+    Assets.add({ alias: "zombie_06", src: "Art/Zombies/zombie_06.json" });
+    Assets.add({ alias: "zombie_07", src: "Art/Zombies/zombie_07.json" });
     Assets.add({ alias: "zombie_08", src: "Art/Zombies/zombie_08.json" });
+    Assets.add({ alias: "zombie_09", src: "Art/Zombies/zombie_09.json" });
+    Assets.add({ alias: "zombie_10", src: "Art/Zombies/zombie_10.json" });
     Assets.add({ alias: "zombie_11", src: "Art/Zombies/zombie_11.json" });
+    Assets.add({ alias: "zombie_12", src: "Art/Zombies/zombie_12.json" });
     Assets.add({ alias: "zombie_13", src: "Art/Zombies/zombie_13.json" });
+    Assets.add({ alias: "zombie_14", src: "Art/Zombies/zombie_14.json" });
+    Assets.add({ alias: "zombie_15", src: "Art/Zombies/zombie_15.json" });
     Assets.add({ alias: "zombie_16", src: "Art/Zombies/zombie_16.json" });
     Assets.add({ alias: "zombie_17", src: "Art/Zombies/zombie_17.json" });
 
@@ -218,8 +225,11 @@ class Game {
       "level_6_background",
       "level_6_overlay",
       "dotted_line",
-      "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05","zombie_08","zombie_11",
-      "zombie_13","zombie_16","zombie_17"],
+      "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05",
+      "zombie_06","zombie_07","zombie_08","zombie_09","zombie_10",
+      "zombie_11","zombie_12","zombie_13","zombie_14","zombie_15",
+      "zombie_16","zombie_17"
+      ],
     );
     assetsPromise.then((assets) => {
       console.log("the assets");
