@@ -106,9 +106,13 @@ class TypingGame extends Screen {
     this.successTextBacking.visible = false;
     this.successText.visible = false;
 
-    this.gameoverBackground = makeSprite("Art/gameover.png", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
-    this.gameoverBackground.scale.set(0.62,0.62);
+    // this.gameoverBackground = makeSprite("Art/gameover.png", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
+    this.gameoverBackground = makeSprite("Art/zombie_approach.mp4", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
+    this.gameoverBackground.scale.set(2.20,2.20);
     this.gameoverBackground.visible = false;
+
+    this.gameoverFade = makeBlank(layers["success_or_gameover"], this.game_width, this.game_height, 0, 0, 0x000000)
+    this.gameoverFade.alpha = 0
 
     this.gameoverTextBacking = makeText("GAME OVER!", this.black_font, layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 200, 0.5, 0.5);
     this.gameoverText = makeText("GAME OVER!", this.red_font, layers["success_or_gameover"], this.game_width / 2 + 8, this.game_height / 2 - 200, 0.5, 0.5);
@@ -420,7 +424,20 @@ class TypingGame extends Screen {
     this.gameoverTextBacking.visible = true;
     this.gameoverText.visible = true;
     this.gameoverBackground.visible = true;
+    this.gameoverBackground._texture.source.resource.currentTime = 0;
+    this.gameoverBackground._texture.source.resource.pause()
+    delay(function() {
+      self.gameoverBackground._texture.source.resource.play()
+    }, 500)
+    
     soundEffect("gameover");
+
+    this.gameoverFade.alpha = 0
+    new TWEEN.Tween(this.gameoverFade)
+          .to({alpha: 1})
+          .easing(TWEEN.Easing.Quartic.Out)
+          .duration(6000)
+          .start();
 
     this.mode = "finished";
 
@@ -485,6 +502,11 @@ class TypingGame extends Screen {
         }
       }
 
+      if (key === "Escape") {
+        this.hp = 0;
+        this.loseLevel();
+      }
+
       // if (key.toLowerCase() === this.weapon.word[0]) {
       //   this.killZombie();
       // }
@@ -493,6 +515,8 @@ class TypingGame extends Screen {
       //   this.loadLevel(this.level + 1);
       // }
     }
+
+    
   }
 
 

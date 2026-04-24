@@ -208,6 +208,7 @@ class Game {
     Assets.add({ alias: "zombie_15", src: "Art/Zombies/zombie_15.json" });
     Assets.add({ alias: "zombie_16", src: "Art/Zombies/zombie_16.json" });
     Assets.add({ alias: "zombie_17", src: "Art/Zombies/zombie_17.json" });
+    Assets.add({ alias: "zombie_approach", src: "Art/zombie_approach.mp4" });
 
     const assetsPromise = Assets.load(
       ["3","2","1","go",
@@ -228,7 +229,8 @@ class Game {
       "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05",
       "zombie_06","zombie_07","zombie_08","zombie_09","zombie_10",
       "zombie_11","zombie_12","zombie_13","zombie_14","zombie_15",
-      "zombie_16","zombie_17"
+      "zombie_16","zombie_17",
+      "zombie_approach"
       ],
     );
     assetsPromise.then((assets) => {
