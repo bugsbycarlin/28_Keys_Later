@@ -54,7 +54,7 @@ let sound_files = [
   ["keyboard_click_3", "keyboard_click_3.wav"],
   ["keyboard_click_4", "keyboard_click_4.wav"],
   ["keyboard_click_5", "keyboard_click_5.wav"],
-  ["success", "success.wav"],
+  // ["success", "success.wav"],
   ["gameover", "gameover.wav"],
   ["swipe", "swipe.wav"],
   ["positive", "positive.wav"],
@@ -64,6 +64,7 @@ let sound_files = [
   ["Level3", "Level3.mp3"],
   ["Level4", "Level4.mp3"],
   ["Level5", "Level5.mp3"],
+  ["success_music", "success_music.mp3"],
 ]
 
 

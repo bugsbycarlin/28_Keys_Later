@@ -97,8 +97,8 @@ class TypingGame extends Screen {
     this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
-    this.successBackground = makeSprite("Art/success.png", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
-    this.successBackground.scale.set(0.62,0.62);
+    this.successBackground = makeSprite("Art/zombie_dance.mp4", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
+    this.successBackground.scale.set(2.20,2.20);
     this.successBackground.visible = false;
 
     this.successTextBacking = makeText("SUCCESS!", this.black_font, layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 200, 0.5, 0.5);
@@ -106,7 +106,6 @@ class TypingGame extends Screen {
     this.successTextBacking.visible = false;
     this.successText.visible = false;
 
-    // this.gameoverBackground = makeSprite("Art/gameover.png", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
     this.gameoverBackground = makeSprite("Art/zombie_approach.mp4", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
     this.gameoverBackground.scale.set(2.20,2.20);
     this.gameoverBackground.visible = false;
@@ -391,17 +390,29 @@ class TypingGame extends Screen {
     this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
-    this.successTextBacking.visible = true;
-    this.successText.visible = true;
+    // this.successTextBacking.visible = true;
+    // this.successText.visible = true;
     this.successBackground.visible = true;
-    soundEffect("success");
+    this.successBackground._texture.source.resource.currentTime = 0;
+    this.successBackground._texture.source.resource.pause()
+    this.successBackground._texture.source.resource.play()
+    // delay(function() {
+      
+    // }, 50)
+
+    delay(function() {
+      self.successTextBacking.visible = true;
+      self.successText.visible = true;
+    }, 5250)
+
+    soundEffect("success_music");
 
     this.mode = "finished";
 
     if (this.level < 11) {
       delay(function() {
         self.loadLevel(self.level + 1)
-      }, 4000)
+      }, 7000)
     } else {
       this.successText.text = "YOU SURVIVED!\nTHE END"
       this.successTextBacking.text = "YOU SURVIVED!\nTHE END"
