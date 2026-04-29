@@ -36,7 +36,9 @@ class Screen extends PIXI.Container {
 
 
 Game.prototype.createScreen = function(screen_name, extra_param = null, reset = false) {
-  if (screen_name == "typing_game") {
+  if (screen_name == "home_screen") {
+    this.screens["home_screen"] = new HomeScreen(this.width, this.height);
+  } else if (screen_name == "typing_game") {
     this.screens["typing_game"] = new TypingGame(this.width, this.height);
   } else if (screen_name == "math_game") {
     this.screens["math_game"] = new MathGame(this.width, this.height);
@@ -97,6 +99,8 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
 Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = false, fade_time = 1000) {
   if (this.screens[old_screen] != null) pixi.stage.removeChild(this.screens[old_screen]);
   if (this.screens[new_screen] != null) pixi.stage.removeChild(this.screens[new_screen]);
+  console.log(new_screen)
+  console.log(this.screens[new_screen]);
   pixi.stage.addChild(this.screens[new_screen]);
   if (double_fade) {  
     pixi.stage.addChild(this.black);

@@ -10,9 +10,9 @@
 var log_performance = true;
 var performance_result = null;
 
-var first_screen = "math_game";
+var first_screen = "home_screen";
 
-var subgames = ["typing_game", "math_game"];
+var subgames = ["home_screen", "typing_game", "math_game"];
 
 var pixi = null;
 var game = null;
@@ -172,6 +172,9 @@ class Game {
 
     Assets.add({ alias: "Wonderbar.otf", src:"Wonderbar.otf", data: { scaleMode: PIXI.SCALE_MODES.NEAREST }});
     Assets.add({ alias: "Komika_Axis.ttf", src:"Komika_Axis.ttf", data: { scaleMode: PIXI.SCALE_MODES.NEAREST }}); 
+    Assets.add({ alias: "title_screen", src: "Art/title_screen.png" });
+    Assets.add({ alias: "title_typing_button", src: "Art/title_typing_button.png" });
+    Assets.add({ alias: "title_math_button", src: "Art/title_math_button.png" });
     Assets.add({ alias: "3", src: "Art/3.png" });
     Assets.add({ alias: "2", src: "Art/2.png" });
     Assets.add({ alias: "1", src: "Art/1.png" });
@@ -221,6 +224,7 @@ class Game {
 
     const assetsPromise = Assets.load(
       ["3","2","1","go",
+      "title_screen","title_typing_button","title_math_button",
       "hammer","sword","cricket_bat","baseball_bat","frying_pan",
       "typing_panel_left","typing_panel_right","typing_panel_middle",
       "live_heart","dead_heart","zombie_glyph", "splash",
