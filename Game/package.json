@@ -1,6 +1,6 @@
 {
   "name": "28keyslater",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "application",
   "main": "Source/Electron_Wrapper/main.js",
   "scripts": {

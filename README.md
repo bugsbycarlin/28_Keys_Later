@@ -31,3 +31,8 @@ All programming and art assets by Matthew Carlin, though in this case I didn't d
 0.0
 - Rough Draft!
 
+0.1
+- Working copy of the game, running at 28keyslater.com
+- Two modes: typing and math
+- Eleven levels per mode
+- Seventeen different zombies
