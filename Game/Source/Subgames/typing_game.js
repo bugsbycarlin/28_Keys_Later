@@ -1,8 +1,7 @@
 //
-// This file contains the one and only screen for the application.
-// This is the meat of the program.
+// This file contains the letter typing subgame for 28 Keys Later.
 //
-// Copyright 2024 Alpha Zoo LLC.
+// Copyright 2026 Alpha Zoo LLC.
 // Written by Matthew Carlin
 //
 
@@ -119,6 +118,7 @@ class TypingGame extends Screen {
     this.gameoverText.visible = false;
 
     this.weapon = makeSprite("Art/" + weapons[this.level-1] + ".png", layers["overlay"], this.game_width / 2 + 24 - 48 * (word.length+1), this.game_height / 2 - 300, 0.5, 0.5)
+    this.weapon.word = "";
     this.weapon.scale.set(0.8,0.8);
     shakers.push(this.weapon);
     this.weapon.visible = false;

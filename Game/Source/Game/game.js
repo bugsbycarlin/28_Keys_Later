@@ -1,7 +1,7 @@
 //
-// This file contains the root "game" class for Follow Through. This is the starting point.
+// This file contains the root "game" class for 28 Keys Later. This is the starting point.
 //
-// Copyright 2023 Alpha Zoo LLC.
+// Copyright 2026 Alpha Zoo LLC.
 // Written by Matthew Carlin
 //
 
@@ -16,6 +16,7 @@ var subgames = ["typing_game"];
 
 var pixi = null;
 var game = null;
+
 
 function initialize() {
   game = new Game();  
@@ -56,6 +57,11 @@ class Game {
         this.keymap["ArrowRight"] = null;
       }
     };
+
+    if (isWeb()) {
+      initializeFirebase();
+      countVisit();
+    }
   }
 
 
@@ -63,18 +69,20 @@ class Game {
     this.width = 1400;
     this.height = 900;
 
-    // Create the pixi application
-    pixi = new PIXI.Application(this.width, this.height, {antialias: true});
-    const initPromise = pixi.init({ background: '#EEEEEE', resizeTo: window });
-    
-    initPromise.then((thing) => {
-      document.body.appendChild(pixi.canvas);
+    const container = document.getElementById("gameContainer");
 
-      // document.getElementById("mainDiv").appendChild(pixi.view);
+    pixi = new PIXI.Application();
+
+    pixi.init({
+      width: this.width,
+      height: this.height,
+      antialias: true,
+      background: "#EEEEEE",
+    }).then(() => {
+
+      container.appendChild(pixi.canvas);
+
       this.renderer = pixi.renderer;
-      pixi.renderer.backgroundColor = 0xFFFFFF;
-      pixi.renderer.resize(this.width,this.height);
-      pixi.renderer.backgroundColor = 0xFFFFFF;
 
       // Set up rendering and tweening loop
       let ticker = PIXI.Ticker.shared;
@@ -119,10 +127,8 @@ class Game {
 
       this.preloadAnimations(() => {
         this.initializeScreens();
-      });
-    })
-
-    
+        });
+    });
   }
 
 
