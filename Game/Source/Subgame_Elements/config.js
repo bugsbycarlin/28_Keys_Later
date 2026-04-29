@@ -1,5 +1,5 @@
 
-starting_level =  1;
+starting_level = 1;
 
 let zombies = [
   "zombie_01","zombie_02","zombie_03","zombie_04","zombie_05",
@@ -27,6 +27,14 @@ let speeds = [
   0.4, 0.6,
   0.45, 0.65,
   0.5, 0.7, 0.9
+  ]
+
+let math_speeds = [
+  0.3, 0.4,
+  0.33, 0.45,
+  0.4, 0.5,
+  0.42, 0.53,
+  0.48, 0.58, 0.67
   ]
 
 let waves = [
@@ -67,7 +75,7 @@ let weapons = [
   "baseball_bat","baseball_bat",
   "sword","sword",
   "hammer","hammer",
-  "hammer"
+  "frying_pan"
 ]
 
 let word_lists = {};

@@ -39,6 +39,7 @@ let sound_files = [
   ["punch10", "punch10.wav"],
   ["punch11", "punch11.wav"],
   ["hurt", "hurt.wav"],
+  ["pop", "pop.wav"],
   ["boy_zombie_1", "boy_zombie_1.mp3"],
   ["boy_zombie_2", "boy_zombie_2.mp3"],
   ["boy_zombie_3", "boy_zombie_3.mp3"],
@@ -54,7 +55,6 @@ let sound_files = [
   ["keyboard_click_3", "keyboard_click_3.wav"],
   ["keyboard_click_4", "keyboard_click_4.wav"],
   ["keyboard_click_5", "keyboard_click_5.wav"],
-  // ["success", "success.wav"],
   ["gameover", "gameover.wav"],
   ["swipe", "swipe.wav"],
   ["positive", "positive.wav"],
@@ -65,6 +65,7 @@ let sound_files = [
   ["Level4", "Level4.mp3"],
   ["Level5", "Level5.mp3"],
   ["success_music", "success_music.mp3"],
+  ["end_music", "end_music.mp3"],
 ]
 
 

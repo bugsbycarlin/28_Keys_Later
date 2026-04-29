@@ -10,9 +10,9 @@
 var log_performance = true;
 var performance_result = null;
 
-var first_screen = "typing_game";
+var first_screen = "math_game";
 
-var subgames = ["typing_game"];
+var subgames = ["typing_game", "math_game"];
 
 var pixi = null;
 var game = null;
@@ -180,6 +180,7 @@ class Game {
     Assets.add({ alias: "sword", src: "Art/sword.png" });
     Assets.add({ alias: "baseball_bat", src: "Art/baseball_bat.png" });
     Assets.add({ alias: "cricket_bat", src: "Art/cricket_bat.png" });
+    Assets.add({ alias: "frying_pan", src: "Art/frying_pan.png" });
     Assets.add({ alias: "typing_panel_left", src: "Art/typing_panel_left.png" });
     Assets.add({ alias: "typing_panel_right", src: "Art/typing_panel_right.png" });
     Assets.add({ alias: "typing_panel_middle", src: "Art/typing_panel_middle.png" });
@@ -216,10 +217,11 @@ class Game {
     Assets.add({ alias: "zombie_17", src: "Art/Zombies/zombie_17.json" });
     Assets.add({ alias: "zombie_approach", src: "Art/zombie_approach.mp4" });
     Assets.add({ alias: "zombie_dance", src: "Art/zombie_dance.mp4" });
+    Assets.add({ alias: "helicopter_takeoff", src: "Art/helicopter_takeoff.mp4" });
 
     const assetsPromise = Assets.load(
       ["3","2","1","go",
-      "hammer","sword","cricket_bat","baseball_bat",
+      "hammer","sword","cricket_bat","baseball_bat","frying_pan",
       "typing_panel_left","typing_panel_right","typing_panel_middle",
       "live_heart","dead_heart","zombie_glyph", "splash",
       "success","gameover",
@@ -237,7 +239,7 @@ class Game {
       "zombie_06","zombie_07","zombie_08","zombie_09","zombie_10",
       "zombie_11","zombie_12","zombie_13","zombie_14","zombie_15",
       "zombie_16","zombie_17",
-      "zombie_approach", "zombie_dance"
+      "zombie_approach", "zombie_dance", "helicopter_takeoff"
       ],
     );
     assetsPromise.then((assets) => {

@@ -1,11 +1,11 @@
 //
-// This file contains the letter typing subgame for 28 Keys Later.
+// This file contains the math subgame for 28 Keys Later.
 //
 // Copyright 2026 Alpha Zoo LLC.
 // Written by Matthew Carlin
 //
 
-class TypingGame extends Screen {
+class MathGame extends Screen {
   // Set up the screen
   initialize(width, height) {
     var self = this;
@@ -76,25 +76,30 @@ class TypingGame extends Screen {
     this.blue_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0x3E6294, letterSpacing: 10, align: "right"};    
     this.white_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "right"};    
     this.yellow_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDBCC79, letterSpacing: 10, align: "right"}; 
+    this.medium_black_font = {fontFamily: "Komika Axis", fontSize: 96, fontWeight: 200, fill: 0x000000, letterSpacing: 10, align: "right"};    
+    this.medium_white_font = {fontFamily: "Komika Axis", fontSize: 96, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "left"};    
     this.small_white_font = {fontFamily: "Komika Axis", fontSize: 54, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "right"};    
     
     //old blue 0x3333DD
-
-    let word = pick(word_lists[this.level - 1]);
     this.panel = makeContainer(layers["overlay"], this.game_width / 2 - 10, 10);
-    let panel_left = makeSprite("Art/typing_panel_left.png", this.panel, 0 - 192 - 48 * word.length, 0, 0);
-    let panel_right = makeSprite("Art/typing_panel_right.png", this.panel, 48 * word.length, 0, 0);
-    for (let i = 0; i < word.length; i++) {
-      let panel_middle = makeSprite("Art/typing_panel_middle.png", this.panel, -48 * word.length + 96 * i, 0, 0);
+    let panel_left = makeSprite("Art/typing_panel_left.png", this.panel, 0 - 192 - 48 * 5, 0, 0);
+    let panel_right = makeSprite("Art/typing_panel_right.png", this.panel, 48 * 5, 0, 0);
+    for (let i = 0; i < 5; i++) {
+      let panel_middle = makeSprite("Art/typing_panel_middle.png", this.panel, -48 * 5 + 96 * i, 0, 0);
       panel_middle.scale.set(0.75,1);
     }
 
-    this.letterTextBacking = makeText("K", this.black_font, overlay, this.game_width / 2 + 24 - 8 - 48 * word.length, 190, 0, 1);
-    this.letterText = makeText("K", this.white_font, overlay, this.game_width / 2 + 24 - 48 * word.length, 190, 0, 1);
-    this.letterText.tint = 0x3E6294;
+    // this.letterTextBacking = makeText(" ", this.medium_black_font, overlay, this.game_width / 2 + 24 - 8 - 48 * 5, 165, 0, 1);
+    this.letterText = makeText(" ", this.medium_white_font, overlay, this.game_width / 2 + 24 - 48 * 5, 165, 0, 1);
+    // this.letterText.tint = 0x3E6294;
+    this.letterText.tint = 0x000000;
     this.panel.visible = false;
-    this.letterTextBacking.visible = false;
+    // this.letterTextBacking.visible = false;
     this.letterText.visible = false;
+    this.letterText.ox = this.letterText.x;
+    this.letterText.oy = this.letterText.y;
+    // this.letterTextBacking.ox = this.letterTextBacking.x;
+    // this.letterTextBacking.oy = this.letterTextBacking.y;
 
     this.successBackground = makeSprite("Art/zombie_dance.mp4", layers["success_or_gameover"], this.game_width / 2, this.game_height / 2 - 30, 0.5, 0.5);
     this.successBackground.scale.set(2.20,2.20);
@@ -126,7 +131,7 @@ class TypingGame extends Screen {
     this.gameoverTextBacking.visible = false;
     this.gameoverText.visible = false;
 
-    this.weapon = makeSprite("Art/" + weapons[this.level-1] + ".png", layers["overlay"], this.game_width / 2 + 24 - 48 * (word.length+1), this.game_height / 2 - 300, 0.5, 0.5)
+    this.weapon = makeSprite("Art/" + weapons[this.level-1] + ".png", layers["overlay"], this.game_width / 2 + 24 - 48 * 6, this.game_height / 2 - 300, 0.5, 0.5)
     this.weapon.word = "";
     this.weapon.scale.set(0.8,0.8);
     shakers.push(this.weapon);
@@ -230,7 +235,7 @@ class TypingGame extends Screen {
       soundEffect(new_zombie.sound);
       new_zombie.sound_delay = 6000 + dice(10000);
       new_zombie.last_sound = markTime();
-      new_zombie.speed = speeds[this.level-1] * (dice(40) + 80) / 100.0
+      new_zombie.speed = math_speeds[this.level-1] * (dice(40) + 80) / 100.0
       new_zombie.animationSpeed = new_zombie.speed;
       new_zombie.vx = 0;
       new_zombie.vy = 0;
@@ -284,14 +289,14 @@ class TypingGame extends Screen {
 
     this.weapon.visible = true;
     this.weapon.status = "ready";
-    this.weapon.word = pick(word_lists[this.level - 1]);
-    this.weapon.letter_count = 0;
+    // here we pick the math problem and set the size of the text and panel
+    this.chooseProblem();
 
-    this.letterText.text = " " + this.weapon.word.substring(0, this.weapon.letter_count) + " ";
-    this.letterTextBacking.text = " " + this.weapon.word + " ";
+    this.weapon.letter_count = 0;
+    this.letterText.text = " " + this.weapon.word + " ";
 
     this.panel.visible = true;
-    this.letterTextBacking.visible = true;
+    // this.letterTextBacking.visible = true;
     this.letterText.visible = true;
   }
 
@@ -300,8 +305,88 @@ class TypingGame extends Screen {
     this.weapon.status = "not ready";
     this.weapon.visible = false;
     this.panel.visible = false;
-    this.letterTextBacking.visible = false;
+    // this.letterTextBacking.visible = false;
     this.letterText.visible = false;
+  }
+
+
+  chooseProblem() {
+
+    let left_val,op,right_val,answer;
+    let problem_type = this.level;
+    if (this.level == 11) problem_type = dice(10);
+
+    if (problem_type == 1) {
+      // single digits which add to a single digit
+      left_val = dice(5);
+      op = "+";
+      right_val = dice(4);
+      answer = left_val + right_val;
+    } else if (problem_type == 2) {
+      // single digits which add to any value
+      left_val = dice(9);
+      op = "+";
+      right_val = dice(9);
+      answer = left_val + right_val;
+    } else if (problem_type == 3) {
+      // single digit subtracts
+      left_val = dice(10);
+      op = "-";
+      right_val = dice(left_val);
+      answer = left_val - right_val;
+    } else if (problem_type == 4) {
+      // double digit subtracts
+      left_val = dice(30);
+      op = "-";
+      right_val = dice(left_val);
+      answer = left_val - right_val;
+    } else if (problem_type == 5) {
+      // small multiplications
+      left_val = dice(5);
+      op = "*";
+      right_val = dice(5);
+      answer = left_val * right_val;
+    } else if (problem_type == 6) {
+      // larger multiplications
+      left_val = dice(12);
+      op = "*";
+      right_val = dice(12);
+      answer = left_val * right_val;
+    } else if (problem_type == 7) {
+      // small divisions
+      left_val = dice(4);
+      op = "/";
+      right_val = dice(5);
+      answer = left_val;
+      left_val = left_val * right_val;
+    } else if (problem_type == 8) {
+      // larger divisions
+      left_val = dice(12);
+      op = "/";
+      right_val = dice(12);
+      answer = left_val;
+      left_val = left_val * right_val;
+    } else if (problem_type == 9) {
+      left_val = dice(25);
+      op = "+";
+      right_val = dice(25);
+      answer = left_val + right_val;
+    } else if (problem_type == 10) {
+      left_val = dice(25);
+      op = "+";
+      right_val = dice(25);
+      answer = left_val + right_val;
+    }
+
+    this.weapon.word = left_val + op + right_val + "=" + answer
+    if (this.weapon.word.length < 7) {
+      this.letterText.x = this.letterText.ox + 30 * (7 - this.weapon.word.length)
+    } else {
+      this.letterText.x = this.letterText.ox;
+    }
+    this.weapon.word = left_val + op + right_val + "=";
+    this.weapon.answer = "" + answer;
+    this.weapon.proposed_answer = "";
   }
 
 
@@ -325,10 +410,10 @@ class TypingGame extends Screen {
     if (closest_zombie != null) {
       this.weapon.status = "not ready";
       soundEffect("positive");
-      flicker(this.letterText, 100, 0x3E6294, 0xA1D99E)
+      flicker(this.letterText, 100, 0x000000, 0x3E6294)
       delay(function() {
         self.enableWeapon();
-        self.letterText.tint = 0x3E6294;
+        self.letterText.tint = 0x000000;
       }, 100)
 
       closest_zombie.pre_dead = true;
@@ -396,7 +481,7 @@ class TypingGame extends Screen {
 
     this.weapon.visible = false;
     this.panel.visible = false;
-    this.letterTextBacking.visible = false;
+    // this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
     
@@ -490,7 +575,7 @@ class TypingGame extends Screen {
 
     this.weapon.visible = false;
     this.panel.visible = false;
-    this.letterTextBacking.visible = false;
+    // this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
     this.gameoverTextBacking.visible = true;
@@ -558,20 +643,37 @@ class TypingGame extends Screen {
     if (this.mode == "game") {
       // console.log(this.weapon.word[0]);
 
-      if (this.weapon.letter_count < this.weapon.word.length) {
-        console.log("hey");
-        let next_letter = this.weapon.word[this.weapon.letter_count]
-        console.log(key.toLowerCase());
-        console.log(next_letter);
-        if (key.toLowerCase() == next_letter.toLowerCase()) {
-          console.log("oh");
-          this.weapon.letter_count += 1;
-          this.letterText.text = " " + this.weapon.word.substring(0, this.weapon.letter_count) + " ";
+      // if (this.weapon.letter_count < this.weapon.word.length) {
+      //   console.log("hey");
+      //   let next_letter = this.weapon.word[this.weapon.letter_count]
+      //   console.log(key.toLowerCase());
+      //   console.log(next_letter);
+      //   if (key.toLowerCase() == next_letter.toLowerCase()) {
+      //     console.log("oh");
+      //     this.weapon.letter_count += 1;
+      //     this.letterText.text = " " + this.weapon.word.substring(0, this.weapon.letter_count) + " ";
         
-          if (this.weapon.letter_count == this.weapon.word.length) {
-            this.killZombie();
+      //     if (this.weapon.letter_count == this.weapon.word.length) {
+      //       this.killZombie();
+      //     }
+      //   }
+      // }
+      if (this.weapon.proposed_answer.length < this.weapon.answer.length) {
+        for (let i = 0; i < 10; i++) {
+          if (key === ""+i) {
+            this.weapon.proposed_answer += ""+i;
+            this.letterText.text = " " + this.weapon.word + this.weapon.proposed_answer + " ";
+            if (this.weapon.proposed_answer == this.weapon.answer) {
+              this.killZombie();
+            }
           }
         }
+      }
+
+      if (this.weapon.proposed_answer.length > 0 && key === "Backspace" || key === "Delete") {
+        soundEffect("swipe");
+        this.weapon.proposed_answer = this.weapon.proposed_answer.slice(0, -1);
+        this.letterText.text = " " + this.weapon.word + this.weapon.proposed_answer + " ";
       }
 
       if (key === "Escape") {
@@ -588,6 +690,11 @@ class TypingGame extends Screen {
           zombie.stop();
         }
       }
+
+      // if (key == "ArrowRight") {
+      //   this.disableWeapon();
+      //   this.enableWeapon();
+      // }
     } else if (this.mode == "paused") {
       if (key === "Escape") {
         console.log("resuming");

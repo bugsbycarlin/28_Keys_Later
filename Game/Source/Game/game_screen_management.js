@@ -38,6 +38,8 @@ class Screen extends PIXI.Container {
 Game.prototype.createScreen = function(screen_name, extra_param = null, reset = false) {
   if (screen_name == "typing_game") {
     this.screens["typing_game"] = new TypingGame(this.width, this.height);
+  } else if (screen_name == "math_game") {
+    this.screens["math_game"] = new MathGame(this.width, this.height);
   }
 
   console.log(screen_name);
