@@ -172,6 +172,12 @@ class MathGame extends Screen {
     this.pre_game_art[2].visible = false;
     this.pre_game_art[3].visible = false;
 
+    this.skipBabyLevelsText = makeText(" Press S to skip the baby levels ", this.small_white_font, overlay, this.game_width / 2, this.game_height - 40, 0.5, 0.5);
+    this.skipBabyLevelsText.style.fontSize = 28;
+    if (this.level >= 5) {
+      this.skipBabyLevelsText.visible = false;
+    }
+
     this.last_zombie = markTime();
     this.next_zombie = 500;
     this.start_time = markTime()
@@ -484,7 +490,7 @@ class MathGame extends Screen {
     // this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
-    
+    this.skipBabyLevelsText.visible = false;
 
     this.mode = "finished";
 
@@ -573,6 +579,8 @@ class MathGame extends Screen {
 
     stopMusic();
 
+    this.skipBabyLevelsText.visible = false;
+
     this.weapon.visible = false;
     this.panel.visible = false;
     // this.letterTextBacking.visible = false;
@@ -639,6 +647,16 @@ class MathGame extends Screen {
     var self = this;
 
     let key = ev.key;
+
+    if (this.mode != "finished") {
+      if (key.toLowerCase() === "s" && this.level < 5) {
+        soundEffect("ding")
+        delay(function() {
+          soundEffect("ding")
+        }, 200);
+        this.loadLevel(5);
+      }
+    }
 
     if (this.mode == "game") {
       // console.log(this.weapon.word[0]);

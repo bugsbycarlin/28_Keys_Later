@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build-application": "electron-builder -m"
+    "build-application": "electron-builder -m --x64 --arm64"
   },
   "author": "AlphaZoo",
   "license": "MIT",
@@ -23,7 +23,7 @@
   "build": {
     "appId": "com.electron.28keyslater",
     "productName": "28keyslater",
-    "copyright": "Copyright 2024 AlphaZoo LLC",
+    "copyright": "Copyright 2026 AlphaZoo LLC",
     "afterSign": "Source/Electron_Wrapper/notarize.js",
     "directories": {
       "output": "../Release/28keyslater/"

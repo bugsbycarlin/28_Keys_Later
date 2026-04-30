@@ -64,8 +64,8 @@ class HomeScreen extends Screen {
     if (this.mode != "selecting") return;
     console.log(ev);
     if (ev.button === 0) {
-      let x = ev.x;
-      let y = ev.y;
+      let x = ev.layerX;
+      let y = ev.layerY;
       
       // click between x 160 and x 500, y -80 and y -200 for typing
       // click between x 700 and x 980, y -80 and y -200 for math

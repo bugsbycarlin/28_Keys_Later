@@ -77,6 +77,7 @@ class TypingGame extends Screen {
     this.white_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "right"};    
     this.yellow_font = {fontFamily: "Komika Axis", fontSize: 144, fontWeight: 200, fill: 0xDBCC79, letterSpacing: 10, align: "right"}; 
     this.small_white_font = {fontFamily: "Komika Axis", fontSize: 54, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "right"};    
+    // this.tiny_white_font = {fontFamily: "Komika Axis", fontSize: 54, fontWeight: 200, fill: 0xFFFFFF, letterSpacing: 10, align: "right"};    
     
     //old blue 0x3333DD
 
@@ -166,6 +167,12 @@ class TypingGame extends Screen {
     this.pre_game_art[1].visible = false;
     this.pre_game_art[2].visible = false;
     this.pre_game_art[3].visible = false;
+
+    this.skipBabyLevelsText = makeText(" Press 2 to skip the baby levels ", this.small_white_font, overlay, this.game_width / 2, this.game_height - 40, 0.5, 0.5);
+    this.skipBabyLevelsText.style.fontSize = 28;
+    if (this.level >= 5) {
+      this.skipBabyLevelsText.visible = false;
+    }
 
     this.last_zombie = markTime();
     this.next_zombie = 500;
@@ -399,7 +406,7 @@ class TypingGame extends Screen {
     this.letterTextBacking.visible = false;
     this.letterText.visible = false;
 
-    
+    this.skipBabyLevelsText.visible = false;
 
     this.mode = "finished";
 
@@ -488,6 +495,8 @@ class TypingGame extends Screen {
 
     stopMusic();
 
+    this.skipBabyLevelsText.visible = false;
+
     this.weapon.visible = false;
     this.panel.visible = false;
     this.letterTextBacking.visible = false;
@@ -554,6 +563,16 @@ class TypingGame extends Screen {
     var self = this;
 
     let key = ev.key;
+
+    if (this.mode != "finished") {
+      if (key === "2" && this.level < 5) {
+        soundEffect("ding")
+        delay(function() {
+          soundEffect("ding")
+        }, 200);
+        this.loadLevel(5);
+      }
+    }
 
     if (this.mode == "game") {
       // console.log(this.weapon.word[0]);
