@@ -606,11 +606,9 @@ class MathGame extends Screen {
 
     this.mode = "finished";
 
-    if (this.level < 10) {
-      delay(function() {
-        self.loadLevel(self.level)
-      }, 6000)
-    };
+    delay(function() {
+      self.loadLevel(self.level)
+    }, 6000)
   }
 
 
